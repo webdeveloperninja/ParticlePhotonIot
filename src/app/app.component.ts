@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, createPlatformFactory } from '@angular/core';
 import { ParticleService } from './particle.service';
+import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -8,25 +9,68 @@ import { ParticleService } from './particle.service';
 })
 export class AppComponent {
   title = 'plant-iot';
-  isPinSevenOn = false;
 
-  constructor(private readonly _particleService: ParticleService) {}
+  pinState = {
+    isPin6On: false,
+    isPin5On: false,
+    isPin4On: false,
+    isPin7On: false,
+    isPin3On: false,
+    isPin2On: false,
+    isPin1On: false,
+    isPinOon: false
+  };
 
-  turnPinSevenOn() {
-    this._particleService.pinSevenOn().subscribe();
+  particleForm: FormGroup;
+
+  constructor(private readonly _particleService: ParticleService, private readonly _formBuilder: FormBuilder) {
+    this.createForm();
   }
 
-  turnPinSevenOff() {
-    this._particleService.pinSevenOff().subscribe();
+  save() {
+    console.log(this.particleForm.value);
   }
 
-  toggleLight() {
-    if (this.isPinSevenOn) {
-      this.isPinSevenOn = false;
-      this.turnPinSevenOff();
+  createForm() {
+    this.particleForm = this._formBuilder.group({
+      deviceId: [''],
+      accessToken: ['']
+    });
+  }
+
+  getPinName(pin: number): string {
+    return `isPin${pin}On`;
+  }
+
+  flipPinState(pin: number): void {
+    const pinName = this.getPinName(pin);
+
+    if (this.pinState[pinName]) {
+      this.turnPinOff(pin);
+      this.pinState[pinName] = false;
     } else {
-      this.isPinSevenOn = true;
-      this.turnPinSevenOn();
+      this.turnPinOn(pin);
+      this.pinState[pinName] = true;
     }
+  }
+
+  turnPinOff(pin: number) {
+    this._particleService.pinOff(this.deviceId, this.accessToken, pin).subscribe();
+  }
+
+  turnPinOn(pin: number) {
+    this._particleService.pinOn(this.deviceId, this.accessToken, pin).subscribe();
+  }
+
+  get hasAuthentication(): boolean {
+    return this.particleForm.controls.deviceId.value && this.particleForm.controls.accessToken.value;
+  }
+
+  get accessToken(): string {
+    return this.particleForm.controls.accessToken.value;
+  }
+
+  get deviceId(): string {
+    return this.particleForm.controls.deviceId.value;
   }
 }
