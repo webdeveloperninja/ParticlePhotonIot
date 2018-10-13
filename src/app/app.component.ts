@@ -1,6 +1,9 @@
 import { Component, createPlatformFactory } from '@angular/core';
 import { ParticleService } from './particle.service';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
+import { ToasterService } from '../../node_modules/angular2-toaster';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { code } from './firmware';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +11,7 @@ import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  firmware = code;
   title = 'plant-iot';
 
   pinState = {
@@ -23,7 +27,12 @@ export class AppComponent {
 
   particleForm: FormGroup;
 
-  constructor(private readonly _particleService: ParticleService, private readonly _formBuilder: FormBuilder) {
+  constructor(
+    private readonly _particleService: ParticleService,
+    private readonly _formBuilder: FormBuilder,
+    private readonly _toasterService: ToasterService,
+    private modalService: NgbModal
+  ) {
     this.createForm();
   }
 
@@ -36,6 +45,10 @@ export class AppComponent {
       deviceId: [''],
       accessToken: ['']
     });
+  }
+
+  copySuccess() {
+    this._toasterService.pop('success', 'Success', `Firmware copied to clipboard`);
   }
 
   getPinName(pin: number): string {
@@ -55,11 +68,15 @@ export class AppComponent {
   }
 
   turnPinOff(pin: number) {
-    this._particleService.pinOff(this.deviceId, this.accessToken, pin).subscribe();
+    this._particleService.pinOff(this.deviceId, this.accessToken, pin).subscribe(() => {
+      this._toasterService.pop('success', 'Success', `Pin ${pin} turned off`);
+    });
   }
 
   turnPinOn(pin: number) {
-    this._particleService.pinOn(this.deviceId, this.accessToken, pin).subscribe();
+    this._particleService.pinOn(this.deviceId, this.accessToken, pin).subscribe(() => {
+      this._toasterService.pop('success', 'Success', `Pin ${pin} turned on`);
+    });
   }
 
   get hasAuthentication(): boolean {
@@ -72,5 +89,9 @@ export class AppComponent {
 
   get deviceId(): string {
     return this.particleForm.controls.deviceId.value;
+  }
+
+  open(content) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 }

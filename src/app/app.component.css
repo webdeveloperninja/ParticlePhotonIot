@@ -3,3 +3,8 @@ header {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.modal-body {
+  height: 400px;
+  overflow: scroll;
+}
