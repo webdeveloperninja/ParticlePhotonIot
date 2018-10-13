@@ -1,7 +1,36 @@
-<div class="container">
+<header class="container-fluid">
+  <img src="assets/particle-logo.png">
+</header>
+<div class="container mt-3">
   <div class="row">
-    <div class="col-md-12">
-      <button class="btn btn-primary" (click)="toggleLight()">Toggle Pin 7</button>
+    <div class="col-md-4">
+      <form [formGroup]="particleForm" (ngSubmit)="save()">
+        <div class="form-group">
+          <label for="deviceId">Device Id</label>
+          <input id="deviceId" class="form-control" formControlName="deviceId">
+          <small id="emailHelp" class="form-text text-muted">
+            <a href="https://build.particle.io/" target="_blank">Get from your build dashboard devices tab</a>
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="accessToken">Access Token</label>
+          <input class="form-control" type="password" formControlName="accessToken">
+          <small id="emailHelp" class="form-text text-muted">
+            <a href="https://build.particle.io/" target="_blank">Get from your build dashboard settings tab</a>
+          </small>
+        </div>
+        <button class="btn btn-primary" type="submit">Save</button>
+      </form>
+    </div>
+    <div class="col-md-8 mt-4">
+      <button class="btn btn-primary mb-2 mr-2" (click)="flipPinState(7)">Toggle Pin 7</button>
+      <button class="btn btn-primary mb-2 mr-2" (click)="flipPinState(6)">Toggle Pin 6</button>
+      <button class="btn btn-primary mb-2 mr-2" (click)="flipPinState(5)">Toggle Pin 5</button>
+      <button class="btn btn-primary mb-2 mr-2" (click)="flipPinState(4)">Toggle Pin 4</button>
+      <button class="btn btn-primary mb-2 mr-2" (click)="flipPinState(3)">Toggle Pin 3</button>
+      <button class="btn btn-primary mb-2 mr-2" (click)="flipPinState(2)">Toggle Pin 2</button>
+      <button class="btn btn-primary mb-2 mr-2" (click)="flipPinState(1)">Toggle Pin 1</button>
+      <button class="btn btn-primary mb-2 mr-2" (click)="flipPinState(0)">Toggle Pin 0</button>
     </div>
   </div>
 </div>
