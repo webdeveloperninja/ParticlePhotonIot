@@ -47,6 +47,10 @@ export class AppComponent {
     });
   }
 
+  copySuccess() {
+    this._toasterService.pop('success', 'Success', `Firmware copied to clipboard`);
+  }
+
   getPinName(pin: number): string {
     return `isPin${pin}On`;
   }

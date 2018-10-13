@@ -46,10 +46,14 @@
     </button>
   </div>
   <div class="modal-body">
-    <a href="https://build.particle.io/build" target="_blank">
+    <button class="btn btn-primary mb-2 mr-2" ngxClipboard (cbOnSuccess)="copySuccess()" [cbContent]="firmware">
+      <i class="fa fa-clipboard" aria-hidden="true"></i>
+      Copy
+    </button>
+    <button class="btn btn-primary mb-2" href="https://build.particle.io/build" target="_blank">
       <i class="fa fa-external-link" aria-hidden="true"></i>
       Flash your particle
-    </a>
+    </button>
     <pre><code highlight [code]="firmware"></code></pre>
   </div>
 </ng-template>
