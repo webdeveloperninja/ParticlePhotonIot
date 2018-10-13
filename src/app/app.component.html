@@ -24,6 +24,8 @@
       </form>
     </div>
     <div class="col-md-8 mt-4">
+      <button class="btn btn-outline-primary" (click)="open(content)">Get Firmware Code</button>
+      <hr>
       <button class="btn btn-primary mb-2 mr-2" (click)="flipPinState(7)">Toggle Pin 7</button>
       <button class="btn btn-primary mb-2 mr-2" (click)="flipPinState(6)">Toggle Pin 6</button>
       <button class="btn btn-primary mb-2 mr-2" (click)="flipPinState(5)">Toggle Pin 5</button>
@@ -35,3 +37,16 @@
     </div>
   </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">C Firmware Code</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <a class="mb-2" href="https://build.particle.io/build" target="_blank">Flash your particle</a>
+    <pre><code highlight [code]="someCode"></code></pre>
+  </div>
+</ng-template>

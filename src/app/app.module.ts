@@ -4,13 +4,23 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToasterModule } from 'angular2-toaster';
+import { HighlightModule } from 'ngx-highlightjs';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { ParticleService } from './particle.service';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, ReactiveFormsModule, ToasterModule.forRoot()],
+  imports: [
+    NgbModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    ToasterModule.forRoot(),
+    HighlightModule.forRoot({ theme: 'agate' })
+  ],
   providers: [ParticleService],
   bootstrap: [AppComponent]
 })
