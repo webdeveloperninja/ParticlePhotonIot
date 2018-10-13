@@ -40,13 +40,16 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">C Firmware Code</h4>
+    <h4 class="modal-title" id="modal-basic-title">Firmware Code</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <a class="mb-2" href="https://build.particle.io/build" target="_blank">Flash your particle</a>
-    <pre><code highlight [code]="someCode"></code></pre>
+    <a href="https://build.particle.io/build" target="_blank">
+      <i class="fa fa-external-link" aria-hidden="true"></i>
+      Flash your particle
+    </a>
+    <pre><code highlight [code]="firmware"></code></pre>
   </div>
 </ng-template>
