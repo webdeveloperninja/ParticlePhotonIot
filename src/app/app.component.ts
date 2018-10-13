@@ -1,6 +1,7 @@
 import { Component, createPlatformFactory } from '@angular/core';
 import { ParticleService } from './particle.service';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
+import { ToasterService } from '../../node_modules/angular2-toaster';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,11 @@ export class AppComponent {
 
   particleForm: FormGroup;
 
-  constructor(private readonly _particleService: ParticleService, private readonly _formBuilder: FormBuilder) {
+  constructor(
+    private readonly _particleService: ParticleService,
+    private readonly _formBuilder: FormBuilder,
+    private readonly _toasterService: ToasterService
+  ) {
     this.createForm();
   }
 
@@ -55,11 +60,15 @@ export class AppComponent {
   }
 
   turnPinOff(pin: number) {
-    this._particleService.pinOff(this.deviceId, this.accessToken, pin).subscribe();
+    this._particleService.pinOff(this.deviceId, this.accessToken, pin).subscribe(() => {
+      this._toasterService.pop('success', 'Success', `Pin ${pin} turned off`);
+    });
   }
 
   turnPinOn(pin: number) {
-    this._particleService.pinOn(this.deviceId, this.accessToken, pin).subscribe();
+    this._particleService.pinOn(this.deviceId, this.accessToken, pin).subscribe(() => {
+      this._toasterService.pop('success', 'Success', `Pin ${pin} turned on`);
+    });
   }
 
   get hasAuthentication(): boolean {
